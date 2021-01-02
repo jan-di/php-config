@@ -76,9 +76,11 @@ class ConfigBuilder {
         return $this;
     }
 
-    public function enableCaching(string $cacheFile)
+    public function enableCaching(string $cacheFile): self
     {
         $this->cacheFile = $cacheFile;
+
+        return $this;
     }
 
     public function enableDotEnv(AdapterInterface $dotenvAdapter): self

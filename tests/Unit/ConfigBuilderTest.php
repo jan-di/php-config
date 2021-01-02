@@ -3,6 +3,7 @@
 namespace Jandi\Config\Test\Unit;
 
 use InvalidArgumentException;
+use Jandi\Config\Config;
 use Jandi\Config\ConfigBuilder;
 use Jandi\Config\Dotenv\AdapterInterface;
 use Jandi\Config\Entry\AbstractEntry;
@@ -67,6 +68,13 @@ final class ConfigBuilderTest extends TestCase
         new ConfigBuilder([$entry1, $entry2]);
     }
 
+    public function testEnableDotenvFluent(): void {
+        $builder = new ConfigBuilder([]);
+        $adapter = $this->createMock(AdapterInterface::class);
+
+        $this->assertSame($builder, $builder->enableDotEnv($adapter));
+    }
+
     public function testDotenvAdapterIsUsed(): void {
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->once())->method('load');
@@ -74,6 +82,12 @@ final class ConfigBuilderTest extends TestCase
         $builder = new ConfigBuilder([]);
         $builder->enableDotEnv($adapter);
         $builder->build();
+    }
+
+    public function testEnableCachingFluent(): void {
+        $builder = new ConfigBuilder([]);
+
+        $this->assertSame($builder, $builder->enableCaching('path'));
     }
 
     public function testCachedFileIsRead(): void {
