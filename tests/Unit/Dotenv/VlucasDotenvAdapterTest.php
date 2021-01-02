@@ -1,14 +1,16 @@
 <?php
 
+namespace Jandi\Config\Test\Unit\Dotenv;
+
 use Dotenv\Dotenv;
-use Jandi\Config\Dotenv\DotenvDotenvAdapter;
+use Jandi\Config\Dotenv\VlucasDotenvAdapter;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @covers \Jandi\Config\Dotenv\DotenvDotenvAdapter
+ * @covers \Jandi\Config\Dotenv\VlucasDotenvAdapter
  * @uses \Jandi\Config\Dotenv\AdapterInterface
  */
-final class DotenvDotenvAdapterTest extends TestCase
+final class VlucasDotenvAdapterTest extends TestCase
 {
     public function testCallsLoadMethod(): void {
         $dotenv = $this->createMock(Dotenv::class);
@@ -16,7 +18,7 @@ final class DotenvDotenvAdapterTest extends TestCase
             ->method('load')
             ->with();
 
-        $adapter = new DotenvDotenvAdapter($dotenv);
+        $adapter = new VlucasDotenvAdapter($dotenv);
         $adapter->load();
     }
 }

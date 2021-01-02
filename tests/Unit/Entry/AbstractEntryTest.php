@@ -1,5 +1,8 @@
 <?php
 
+namespace Jandi\Config\Test\Unit\Entry;
+
+use InvalidArgumentException;
 use Jandi\Config\Entry\StringEntry;
 use PHPUnit\Framework\TestCase;
 

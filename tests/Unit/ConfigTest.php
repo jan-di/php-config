@@ -1,6 +1,6 @@
 <?php
 
-namespace Jandi\Config\Test;
+namespace Jandi\Config\Test\Unit;
 
 use Jandi\Config\Config;
 use Jandi\Config\Exception\KeyNotFoundException;

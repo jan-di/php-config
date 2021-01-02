@@ -6,7 +6,7 @@ namespace Jandi\Config\Dotenv;
 
 use Dotenv\Dotenv;
 
-class DotenvDotenvAdapter implements AdapterInterface {
+class VlucasDotenvAdapter implements AdapterInterface {
     private Dotenv $dotenv;
 
     public function __construct(Dotenv $dotenv)
