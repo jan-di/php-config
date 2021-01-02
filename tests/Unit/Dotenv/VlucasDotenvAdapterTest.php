@@ -14,9 +14,7 @@ final class VlucasDotenvAdapterTest extends TestCase
 {
     public function testCallsLoadMethod(): void {
         $dotenv = $this->createMock(Dotenv::class);
-        $dotenv->expects($this->once())
-            ->method('load')
-            ->with();
+        $dotenv->expects($this->once())->method('load')->with();
 
         $adapter = new VlucasDotenvAdapter($dotenv);
         $adapter->load();

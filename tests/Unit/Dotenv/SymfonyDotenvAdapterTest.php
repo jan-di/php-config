@@ -14,9 +14,7 @@ final class SymfonyDotenvAdapterTest extends TestCase
 {
     public function testCallsLoadMethod(): void {
         $dotenv = $this->createMock(Dotenv::class);
-        $dotenv->expects($this->once())
-            ->method('load') 
-            ->with('/path/to/file');
+        $dotenv->expects($this->once())->method('load')->with('/path/to/file');
 
         $adapter = new SymfonyDotenvAdapter($dotenv, '/path/to/file');
         $adapter->load();
