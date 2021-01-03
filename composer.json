@@ -37,6 +37,9 @@
             "@psalm",
             "@php-cs-fixer fix --dry-run"
         ],
+        "test-coverage": [
+            "@phpunit --coverage-html .phpunit.cache/report"
+        ],
         "fix": [
             "@php-cs-fixer fix"
         ]
