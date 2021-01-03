@@ -47,12 +47,4 @@ final class BoolEntryTest extends TestCase
 
         $entry->checkValue('nope');
     }
-
-    public function testDefaultValueMethods(): void
-    {
-        $entry = new BoolEntry('KEY');
-
-        $entry->setDefaultValue(true);
-        $this->assertTrue($entry->getDefaultValue());
-    }
 }

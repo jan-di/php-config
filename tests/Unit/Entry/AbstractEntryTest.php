@@ -26,4 +26,11 @@ final class AbstractEntryTest extends TestCase
 
         new StringEntry('KEY=');
     }
+
+    public function testDefaultValueMethods(): void
+    {
+        $entry = (new StringEntry('TEST_KEY'))->setDefaultValue('xyz');
+
+        $this->assertSame('xyz', $entry->getDefaultValue());
+    }
 }

@@ -53,14 +53,6 @@ final class StringEntryTest extends TestCase
         ];
     }
 
-    public function testDefaultValueMethods(): void
-    {
-        $entry = new StringEntry('test1');
-
-        $entry->setDefaultValue('defaultValue1');
-        $this->assertSame('defaultValue1', $entry->getDefaultValue());
-    }
-
     public function testMinLengthMethods(): void
     {
         $entry = new StringEntry('test1');

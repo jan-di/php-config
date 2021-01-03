@@ -9,13 +9,15 @@ use InvalidArgumentException;
 abstract class AbstractEntry
 {
     private string $key;
+    private ?string $defaultValue;
 
-    protected function __construct(string $key)
+    public function __construct(string $key, ?string $defaultValue = null)
     {
         $this->setKey($key);
+        $this->setDefaultValue($defaultValue);
     }
 
-    public function getKey(): string
+    final public function getKey(): string
     {
         return $this->key;
     }
@@ -29,13 +31,20 @@ abstract class AbstractEntry
         $this->key = $key;
     }
 
-    /**
-     * @return mixed
-     */
-    abstract public function checkValue(string $value);
+    final public function getDefaultValue(): ?string
+    {
+        return $this->defaultValue;
+    }
+
+    final public function setDefaultValue(?string $value): self
+    {
+        $this->defaultValue = $value;
+
+        return $this;
+    }
 
     /**
      * @return mixed
      */
-    abstract public function getDefaultValue();
+    abstract public function checkValue(string $value);
 }

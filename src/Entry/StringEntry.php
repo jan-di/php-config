@@ -9,18 +9,10 @@ use Jandi\Config\Exception\InvalidValueException;
 
 class StringEntry extends AbstractEntry
 {
-    private ?string $defaultValue = null;
     private ?int $minLength = null;
     private ?int $maxLength = null;
     private array $allowedValues = [];
     private ?string $regexPattern = null;
-
-    public function __construct(string $key, ?string $defaultValue = null)
-    {
-        parent::__construct($key);
-
-        $this->setDefaultValue($defaultValue);
-    }
 
     public function checkValue(string $value): string
     {
@@ -38,18 +30,6 @@ class StringEntry extends AbstractEntry
         }
 
         return $value;
-    }
-
-    public function getDefaultValue(): ?string
-    {
-        return $this->defaultValue;
-    }
-
-    public function setDefaultValue(?string $value): self
-    {
-        $this->defaultValue = $value;
-
-        return $this;
     }
 
     public function getMinLength(): ?int

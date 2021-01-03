@@ -8,7 +8,6 @@ use Jandi\Config\Exception\InvalidValueException;
 
 class BoolEntry extends AbstractEntry
 {
-    private ?bool $defaultValue = null;
     private static array $valueTable = [
         'true' => true,
         'false' => false,
@@ -20,13 +19,6 @@ class BoolEntry extends AbstractEntry
         'no' => false,
     ];
 
-    public function __construct(string $key, ?bool $defaultValue = null)
-    {
-        parent::__construct($key);
-
-        $this->setDefaultValue($defaultValue);
-    }
-
     public function checkValue(string $value): bool
     {
         $key = strtolower($value);
@@ -35,17 +27,5 @@ class BoolEntry extends AbstractEntry
         }
 
         return self::$valueTable[$key];
-    }
-
-    public function getDefaultValue(): ?bool
-    {
-        return $this->defaultValue;
-    }
-
-    public function setDefaultValue(?bool $value): self
-    {
-        $this->defaultValue = $value;
-
-        return $this;
     }
 }

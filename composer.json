@@ -29,10 +29,16 @@
         "friendsofphp/php-cs-fixer": "^2.17"
     },
     "scripts": {
+        "phpunit": "phpunit",
+        "psalm": "psalm",
+        "php-cs-fixer": "php-cs-fixer",
         "test": [
-            "phpunit",
-            "psalm",
-            "php-cs-fixer fix --dry-run"
+            "@phpunit",
+            "@psalm",
+            "@php-cs-fixer fix --dry-run"
+        ],
+        "fix": [
+            "@php-cs-fixer fix"
         ]
     }
 }
