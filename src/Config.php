@@ -6,11 +6,13 @@ namespace Jandi\Config;
 
 use Jandi\Config\Exception\KeyNotFoundException;
 
-class Config {
+class Config
+{
     private array $values = [];
 
-    public function __construct(array $values) {
-        foreach($values as $key => $value) {
+    public function __construct(array $values)
+    {
+        foreach ($values as $key => $value) {
             $this->set($key, $value);
         }
 
@@ -23,7 +25,7 @@ class Config {
     }
 
     /**
-     * @return mixed 
+     * @return mixed
      */
     public function get(string $key)
     {
@@ -40,7 +42,7 @@ class Config {
     }
 
     /**
-     * @param mixed $value 
+     * @param mixed $value
      */
     private function set(string $key, $value): void
     {

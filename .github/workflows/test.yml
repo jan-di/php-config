@@ -26,3 +26,6 @@ jobs:
       - name: PHPUnit
         run: |
           vendor/bin/phpunit --coverage-text
+      - name: php-cs-fixer
+        run: |
+          vendor/bin/php-cs-fixer fix --dry-run --diff --diff-format=udiff --verbose

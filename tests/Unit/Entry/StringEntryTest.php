@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jandi\Config\Entry\StringEntry
+ *
  * @uses \Jandi\Config\Entry\AbstractEntry
  */
 final class StringEntryTest extends TestCase
@@ -54,7 +55,7 @@ final class StringEntryTest extends TestCase
 
     public function testDefaultValueMethods(): void
     {
-        $entry = new StringEntry("test1");
+        $entry = new StringEntry('test1');
 
         $entry->setDefaultValue('defaultValue1');
         $this->assertSame('defaultValue1', $entry->getDefaultValue());
@@ -62,7 +63,7 @@ final class StringEntryTest extends TestCase
 
     public function testMinLengthMethods(): void
     {
-        $entry = new StringEntry("test1");
+        $entry = new StringEntry('test1');
 
         $entry->setMinLength(40);
         $this->assertSame(40, $entry->getMinLength());
@@ -70,7 +71,7 @@ final class StringEntryTest extends TestCase
 
     public function testMaxLengthMethods(): void
     {
-        $entry = new StringEntry("test1");
+        $entry = new StringEntry('test1');
 
         $entry->setMaxLength(50);
         $this->assertSame(50, $entry->getMaxLength());
@@ -78,7 +79,7 @@ final class StringEntryTest extends TestCase
 
     public function testMinLengthGreaterThanMaxLength(): void
     {
-        $entry = new StringEntry("test");
+        $entry = new StringEntry('test');
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -87,7 +88,7 @@ final class StringEntryTest extends TestCase
 
     public function testMaxLengthLowerThanMinLength(): void
     {
-        $entry = new StringEntry("test");
+        $entry = new StringEntry('test');
 
         $this->expectException(InvalidArgumentException::class);
 
@@ -96,7 +97,7 @@ final class StringEntryTest extends TestCase
 
     public function testAllowedValuesMethods(): void
     {
-        $entry = new StringEntry("test1");
+        $entry = new StringEntry('test1');
 
         $entry->setAllowedValues(['value1', 'value2']);
         $this->assertEqualsCanonicalizing(['value1', 'value2'], $entry->getAllowedValues());

@@ -10,7 +10,8 @@ use Jandi\Config\Entry\AbstractEntry;
 use Jandi\Config\Exception\KeyNotFoundException;
 use LogicException;
 
-class ConfigBuilder {
+class ConfigBuilder
+{
     private ?AdapterInterface $dotenvAdapter = null;
     private ?string $cacheFile = null;
     private array $entries = [];
@@ -18,7 +19,6 @@ class ConfigBuilder {
     public function __construct(array $entries)
     {
         $this->addEntries(...$entries);
-        
     }
 
     /**
@@ -37,7 +37,7 @@ class ConfigBuilder {
             }
 
             // load and validate each entry
-            foreach($this->entries as $entry) {
+            foreach ($this->entries as $entry) {
                 $value = $this->getEnv($entry->getKey());
                 if ($value === null) {
                     if ($entry->getDefaultValue() === null) {
@@ -53,7 +53,8 @@ class ConfigBuilder {
         return new Config($values);
     }
 
-    public function dumpCache(Config $config): void {
+    public function dumpCache(Config $config): void
+    {
         if ($this->cacheFile === null) {
             throw new LogicException('Must enable caching before creating a cached config.');
         }
@@ -64,12 +65,11 @@ class ConfigBuilder {
         }
         $content = '<?php return '.var_export($config->export(), true).';'.PHP_EOL;
         file_put_contents($this->cacheFile, $content);
-
     }
 
     public function addEntries(AbstractEntry ...$entries): self
     {
-        foreach($entries as $entry) {
+        foreach ($entries as $entry) {
             if (isset($this->entries[$entry->getKey()])) {
                 throw new InvalidArgumentException('There is already an Entry defined for key "'.$entry->getKey().'"');
             }

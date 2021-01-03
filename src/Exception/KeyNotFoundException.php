@@ -6,4 +6,6 @@ namespace Jandi\Config\Exception;
 
 use RuntimeException;
 
-class KeyNotFoundException extends RuntimeException {}
+class KeyNotFoundException extends RuntimeException
+{
+}

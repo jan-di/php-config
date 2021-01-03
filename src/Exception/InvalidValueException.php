@@ -6,4 +6,6 @@ namespace Jandi\Config\Exception;
 
 use RuntimeException;
 
-class InvalidValueException extends RuntimeException {}
+class InvalidValueException extends RuntimeException
+{
+}

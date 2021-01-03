@@ -6,7 +6,8 @@ namespace Jandi\Config\Dotenv;
 
 use josegonzalez\Dotenv\Loader;
 
-class JosegonzalesDotenvAdapter implements AdapterInterface {
+class JosegonzalesDotenvAdapter implements AdapterInterface
+{
     private Loader $dotenv;
 
     public function __construct(Loader $dotenv)
@@ -14,7 +15,8 @@ class JosegonzalesDotenvAdapter implements AdapterInterface {
         $this->dotenv = $dotenv;
     }
 
-    public function load(): void { 
+    public function load(): void
+    {
         $this->dotenv->parse()->toServer();
     }
 }

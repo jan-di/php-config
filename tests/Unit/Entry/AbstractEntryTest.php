@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jandi\Config\Entry\AbstractEntry
+ *
  * @uses \Jandi\Config\Entry\StringEntry
  */
 final class AbstractEntryTest extends TestCase

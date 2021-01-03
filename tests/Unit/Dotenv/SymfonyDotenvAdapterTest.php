@@ -8,11 +8,13 @@ use Symfony\Component\Dotenv\Dotenv;
 
 /**
  * @covers \Jandi\Config\Dotenv\SymfonyDotenvAdapter
+ *
  * @uses \Jandi\Config\Dotenv\AdapterInterface
  */
 final class SymfonyDotenvAdapterTest extends TestCase
 {
-    public function testCallsLoadMethod(): void {
+    public function testCallsLoadMethod(): void
+    {
         $dotenv = $this->createMock(Dotenv::class);
         $dotenv->expects($this->once())->method('load')->with('/path/to/file');
 

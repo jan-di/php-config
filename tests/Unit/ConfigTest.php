@@ -42,7 +42,7 @@ final class ConfigTest extends TestCase
             'KEY3' => 'val3',
             'KEY2' => 'val2',
         ]);
-        
+
         $this->assertEqualsCanonicalizing([
             'KEY1' => 'val1',
             'KEY2' => 'val2',
@@ -50,10 +50,11 @@ final class ConfigTest extends TestCase
         ], $config->export());
     }
 
-    public function testExportIsImportable(): void {
+    public function testExportIsImportable(): void
+    {
         $config1 = new Config([
             'KEY1' => 'val1',
-            'KEY2' => 2
+            'KEY2' => 2,
         ]);
         $config2 = new Config($config1->export());
 

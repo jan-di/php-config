@@ -3,7 +3,6 @@
 namespace Jandi\Config\Test\Unit;
 
 use InvalidArgumentException;
-use Jandi\Config\Config;
 use Jandi\Config\ConfigBuilder;
 use Jandi\Config\Dotenv\AdapterInterface;
 use Jandi\Config\Entry\AbstractEntry;
@@ -14,6 +13,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jandi\Config\ConfigBuilder
+ *
  * @uses \Jandi\Config\Entry\AbstractEntry
  * @uses \Jandi\Config\Config
  * @uses \Jandi\Config\Dotenv\AdapterInterface
@@ -23,7 +23,8 @@ final class ConfigBuilderTest extends TestCase
     /**
      * @backupGlobals enabled
      */
-    public function testWithExistingValue(): void {
+    public function testWithExistingValue(): void
+    {
         $_SERVER['APP_VAR1'] = 'valuex';
 
         $entry = $this->createMock(AbstractEntry::class);
@@ -36,7 +37,8 @@ final class ConfigBuilderTest extends TestCase
         $this->assertSame('valuex', $config->get('APP_VAR1'));
     }
 
-    public function testWithDefaultValue(): void {
+    public function testWithDefaultValue(): void
+    {
         $entry = $this->createMock(AbstractEntry::class);
         $entry->method('getKey')->willReturn('APP_VAR2');
         $entry->method('getDefaultValue')->willReturn('valuey');
@@ -48,7 +50,8 @@ final class ConfigBuilderTest extends TestCase
         $this->assertSame('valuey', $config->get('APP_VAR2'));
     }
 
-    public function testWithMissingValue(): void {
+    public function testWithMissingValue(): void
+    {
         $entry = $this->createMock(AbstractEntry::class);
         $entry->method('getKey')->willReturn('APP_VAR3');
         $entry->method('getDefaultValue')->willReturn(null);
@@ -58,7 +61,8 @@ final class ConfigBuilderTest extends TestCase
         $builder->build();
     }
 
-    public function testNoDuplicateEntries(): void {
+    public function testNoDuplicateEntries(): void
+    {
         $entry1 = $this->createStub(AbstractEntry::class);
         $entry1->method('getKey')->willReturn('UNIQUE');
         $entry2 = clone $entry1;
@@ -68,14 +72,16 @@ final class ConfigBuilderTest extends TestCase
         new ConfigBuilder([$entry1, $entry2]);
     }
 
-    public function testEnableDotenvFluent(): void {
+    public function testEnableDotenvFluent(): void
+    {
         $builder = new ConfigBuilder([]);
         $adapter = $this->createMock(AdapterInterface::class);
 
         $this->assertSame($builder, $builder->enableDotEnv($adapter));
     }
 
-    public function testDotenvAdapterIsUsed(): void {
+    public function testDotenvAdapterIsUsed(): void
+    {
         $adapter = $this->createMock(AdapterInterface::class);
         $adapter->expects($this->once())->method('load');
 
@@ -84,13 +90,15 @@ final class ConfigBuilderTest extends TestCase
         $builder->build();
     }
 
-    public function testEnableCachingFluent(): void {
+    public function testEnableCachingFluent(): void
+    {
         $builder = new ConfigBuilder([]);
 
         $this->assertSame($builder, $builder->enableCaching('path'));
     }
 
-    public function testCachedFileIsRead(): void {
+    public function testCachedFileIsRead(): void
+    {
         $vfs = vfsStream::setup();
 
         $content = '<?php return '.var_export(['VAR80' => 'value80'], true).';'.PHP_EOL;
@@ -103,7 +111,8 @@ final class ConfigBuilderTest extends TestCase
         $this->assertSame('value80', $config->get('VAR80'));
     }
 
-    public function testNoCacheDumpWithoutCachePath(): void {
+    public function testNoCacheDumpWithoutCachePath(): void
+    {
         $builder = new ConfigBuilder([]);
         $config = $builder->build();
 
@@ -114,7 +123,8 @@ final class ConfigBuilderTest extends TestCase
     /**
      * @psalm-suppress UnresolvableInclude
      */
-    public function testCacheDumpIsCreated(): void {
+    public function testCacheDumpIsCreated(): void
+    {
         $vfs = vfsStream::setup();
 
         $entry = $this->createMock(AbstractEntry::class);
@@ -131,7 +141,8 @@ final class ConfigBuilderTest extends TestCase
         $this->assertEqualsCanonicalizing(['APP_VAR20' => 'variable'], $cachedConfig);
     }
 
-    public function testCacheParentDirIsCreated(): void {
+    public function testCacheParentDirIsCreated(): void
+    {
         $vfs = vfsStream::setup();
 
         $entry = $this->createMock(AbstractEntry::class);

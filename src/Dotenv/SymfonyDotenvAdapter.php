@@ -6,7 +6,8 @@ namespace Jandi\Config\Dotenv;
 
 use Symfony\Component\Dotenv\Dotenv;
 
-class SymfonyDotenvAdapter implements AdapterInterface {
+class SymfonyDotenvAdapter implements AdapterInterface
+{
     private Dotenv $dotenv;
     private string $file;
 
@@ -16,7 +17,8 @@ class SymfonyDotenvAdapter implements AdapterInterface {
         $this->file = $file;
     }
 
-    public function load(): void { 
+    public function load(): void
+    {
         $this->dotenv->load($this->file);
     }
 }

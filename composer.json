@@ -25,6 +25,14 @@
         "dg/bypass-finals": "^1.3",
         "josegonzalez/dotenv": "^3.2",
         "vimeo/psalm": "^4.3",
-        "psalm/plugin-phpunit": "^0.15.0"
+        "psalm/plugin-phpunit": "^0.15.0",
+        "friendsofphp/php-cs-fixer": "^2.17"
+    },
+    "scripts": {
+        "test": [
+            "phpunit",
+            "psalm",
+            "php-cs-fixer fix --dry-run"
+        ]
     }
 }

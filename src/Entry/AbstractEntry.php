@@ -6,7 +6,8 @@ namespace Jandi\Config\Entry;
 
 use InvalidArgumentException;
 
-abstract class AbstractEntry {
+abstract class AbstractEntry
+{
     private string $key;
 
     protected function __construct(string $key)
@@ -14,11 +15,13 @@ abstract class AbstractEntry {
         $this->setKey($key);
     }
 
-    public function getKey(): string {
+    public function getKey(): string
+    {
         return $this->key;
     }
 
-    private function setKey(string $key): void {
+    private function setKey(string $key): void
+    {
         if (strpos($key, '=') !== false) {
             throw new InvalidArgumentException("Key must not contain '='");
         }
@@ -27,12 +30,12 @@ abstract class AbstractEntry {
     }
 
     /**
-     * @return mixed 
+     * @return mixed
      */
-    public abstract function checkValue(string $value);
+    abstract public function checkValue(string $value);
 
     /**
-     * @return mixed 
+     * @return mixed
      */
-    public abstract function getDefaultValue();
+    abstract public function getDefaultValue();
 }
