@@ -11,6 +11,7 @@ class StringEntry extends AbstractEntry {
     private ?string $defaultValue = null;
     private ?int $minLength = null;
     private ?int $maxLength = null;
+    private array $allowedValues = [];
 
     public function __construct(string $key, ?string $defaultValue = null)
     {
@@ -22,10 +23,13 @@ class StringEntry extends AbstractEntry {
     public function checkValue(string $value): string
     {
         if ($this->minLength !== null && strlen($value) < $this->minLength) {
-            throw new InvalidValueException("Value too short");
+            throw new InvalidValueException("Specified Value is too short");
         }
-        elseif ($this->maxLength !== null && strlen($value) > $this->maxLength) {
-            throw new InvalidValueException("Value too long");
+        if ($this->maxLength !== null && strlen($value) > $this->maxLength) {
+            throw new InvalidValueException("Specified Value is too long");
+        }
+        if (count($this->allowedValues) > 0 && !in_array($value, $this->allowedValues)) {
+            throw new InvalidValueException("Specified Value is not allowed");
         }
 
         return $value;
@@ -67,6 +71,16 @@ class StringEntry extends AbstractEntry {
 
         $this->maxLength = $length;
 
+        return $this;
+    }
+
+    public function getAllowedValues(): array {
+        return $this->allowedValues;
+    }
+
+    public function setAllowedValues(array $allowedValues): self {
+        $this->allowedValues = $allowedValues;
+        
         return $this;
     }
 }

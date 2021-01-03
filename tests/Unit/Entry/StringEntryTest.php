@@ -93,4 +93,28 @@ final class StringEntryTest extends TestCase
 
         $entry->setMinLength(8)->setMaxLength(7);
     }
+
+    public function testAllowedValuesMethods(): void
+    {
+        $entry = new StringEntry("test1");
+
+        $entry->setAllowedValues(['value1', 'value2']);
+        $this->assertEqualsCanonicalizing(['value1', 'value2'], $entry->getAllowedValues());
+    }
+
+    public function testValidAllowedValues(): void
+    {
+        $entry = (new StringEntry('VAL1'))->setAllowedValues(['development']);
+
+        $this->assertSame('development', $entry->checkValue('development'));
+    }
+
+    public function testInvalidAllowedValues(): void
+    {
+        $entry = (new StringEntry('VAL1'))->setAllowedValues(['development']);
+
+        $this->expectException(InvalidValueException::class);
+
+        $entry->checkValue('value');
+    }
 }
