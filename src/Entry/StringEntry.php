@@ -13,6 +13,7 @@ class StringEntry extends AbstractEntry
     private ?int $minLength = null;
     private ?int $maxLength = null;
     private array $allowedValues = [];
+    private ?string $regexPattern = null;
 
     public function __construct(string $key, ?string $defaultValue = null)
     {
@@ -32,6 +33,9 @@ class StringEntry extends AbstractEntry
         if (count($this->allowedValues) > 0 && !in_array($value, $this->allowedValues)) {
             throw new InvalidValueException('Specified Value is not allowed');
         }
+        if ($this->regexPattern !== null && preg_match($this->regexPattern, $value) !== 1) {
+            throw new InvalidValueException('Specified Value does not match regex pattern');
+        }
 
         return $value;
     }
@@ -41,9 +45,9 @@ class StringEntry extends AbstractEntry
         return $this->defaultValue;
     }
 
-    public function setDefaultValue(?string $defaultValue): self
+    public function setDefaultValue(?string $value): self
     {
-        $this->defaultValue = $defaultValue;
+        $this->defaultValue = $value;
 
         return $this;
     }
@@ -85,9 +89,21 @@ class StringEntry extends AbstractEntry
         return $this->allowedValues;
     }
 
-    public function setAllowedValues(array $allowedValues): self
+    public function setAllowedValues(array $values): self
     {
-        $this->allowedValues = $allowedValues;
+        $this->allowedValues = $values;
+
+        return $this;
+    }
+
+    public function getRegexPattern(): ?string
+    {
+        return $this->regexPattern;
+    }
+
+    public function setRegexPattern(?string $pattern): self
+    {
+        $this->regexPattern = $pattern;
 
         return $this;
     }

@@ -82,4 +82,4 @@ Alternatively you can provide you own by implementing [AdapterInterface](https:/
 
 ### Entry Types
 
-- StringEntry (MinLength, MaxLength, AllowedValues)
+- StringEntry (MinLength, MaxLength, AllowedValues, RegexPattern)

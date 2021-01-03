@@ -118,4 +118,28 @@ final class StringEntryTest extends TestCase
 
         $entry->checkValue('value');
     }
+
+    public function testRegexPatternMethods(): void
+    {
+        $entry = new StringEntry('test1');
+
+        $entry->setRegexPattern('/pattern/');
+        $this->assertSame('/pattern/', $entry->getRegexPattern());
+    }
+
+    public function testValidRegexPatternValue(): void
+    {
+        $entry = (new StringEntry('test1'))->setRegexPattern('/abc/');
+
+        $this->assertSame('abc', $entry->checkValue('abc'));
+    }
+
+    public function testInvalidRegexPatternValue(): void
+    {
+        $entry = (new StringEntry('test1'))->setRegexPattern('/abc/');
+
+        $this->expectException(InvalidValueException::class);
+
+        $entry->checkValue('def');
+    }
 }
