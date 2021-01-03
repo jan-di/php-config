@@ -21,6 +21,9 @@ class ConfigBuilder {
         
     }
 
+    /**
+     * @psalm-suppress UnresolvableInclude
+     */
     public function build(): Config
     {
         if ($this->cacheFile !== null && file_exists($this->cacheFile)) {
@@ -50,7 +53,7 @@ class ConfigBuilder {
         return new Config($values);
     }
 
-    public function dumpCache(Config $config) {
+    public function dumpCache(Config $config): void {
         if ($this->cacheFile === null) {
             throw new LogicException('Must enable caching before creating a cached config.');
         }

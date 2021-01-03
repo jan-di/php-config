@@ -16,7 +16,7 @@ class SymfonyDotenvAdapter implements AdapterInterface {
         $this->file = $file;
     }
 
-    public function load() { 
+    public function load(): void { 
         $this->dotenv->load($this->file);
     }
 }

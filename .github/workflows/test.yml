@@ -20,5 +20,9 @@ jobs:
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
       - run: |
           composer install --no-progress
-      - run: |
+      - name: Psalm
+        run: |
+          vendor/bin/psalm --output-format=github
+      - name: PHPUnit
+        run: |
           vendor/bin/phpunit --coverage-text

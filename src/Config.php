@@ -22,6 +22,9 @@ class Config {
         return $this->values;
     }
 
+    /**
+     * @return mixed 
+     */
     public function get(string $key)
     {
         if (!isset($this->values[$key])) {
@@ -31,12 +34,15 @@ class Config {
         return $this->values[$key];
     }
 
-    public function has(string $key)
+    public function has(string $key): bool
     {
         return isset($this->values[$key]);
     }
 
-    private function set(string $key, $value)
+    /**
+     * @param mixed $value 
+     */
+    private function set(string $key, $value): void
     {
         $this->values[$key] = $value;
     }

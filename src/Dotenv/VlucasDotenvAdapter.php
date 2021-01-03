@@ -14,7 +14,7 @@ class VlucasDotenvAdapter implements AdapterInterface {
         $this->dotenv = $dotenv;
     }
 
-    public function load() { 
+    public function load(): void { 
         $this->dotenv->load();
     }
 }

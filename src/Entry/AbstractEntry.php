@@ -18,7 +18,7 @@ abstract class AbstractEntry {
         return $this->key;
     }
 
-    private function setKey(string $key) {
+    private function setKey(string $key): void {
         if (strpos($key, '=') !== false) {
             throw new InvalidArgumentException("Key must not contain '='");
         }
@@ -26,6 +26,13 @@ abstract class AbstractEntry {
         $this->key = $key;
     }
 
+    /**
+     * @return mixed 
+     */
     public abstract function checkValue(string $value);
+
+    /**
+     * @return mixed 
+     */
     public abstract function getDefaultValue();
 }

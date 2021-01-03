@@ -23,6 +23,8 @@
         "mikey179/vfsstream": "^1.6",
         "symfony/dotenv": "^5.2",
         "dg/bypass-finals": "^1.3",
-        "josegonzalez/dotenv": "^3.2"
+        "josegonzalez/dotenv": "^3.2",
+        "vimeo/psalm": "^4.3",
+        "psalm/plugin-phpunit": "^0.15.0"
     }
 }

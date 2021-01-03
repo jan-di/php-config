@@ -111,6 +111,9 @@ final class ConfigBuilderTest extends TestCase
         $builder->dumpCache($config);
     }
 
+    /**
+     * @psalm-suppress UnresolvableInclude
+     */
     public function testCacheDumpIsCreated(): void {
         $vfs = vfsStream::setup();
 
