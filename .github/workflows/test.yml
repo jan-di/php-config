@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        php: ['7.4', '8.0']
+        php: [7.4, 8.0]
 
     steps:
       - uses: actions/checkout@v2
@@ -27,5 +27,6 @@ jobs:
         run: |
           vendor/bin/phpunit --coverage-text
       - name: php-cs-fixer
+        if: ${{ matrix.php <= 7.4 }}
         run: |
           vendor/bin/php-cs-fixer fix --dry-run --diff --diff-format=udiff --verbose
