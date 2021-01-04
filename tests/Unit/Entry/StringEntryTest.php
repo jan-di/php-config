@@ -2,7 +2,6 @@
 
 namespace Jandi\Config\Test\Unit\Entry;
 
-use InvalidArgumentException;
 use Jandi\Config\Entry\StringEntry;
 use Jandi\Config\Exception\InvalidValueException;
 use PHPUnit\Framework\TestCase;
@@ -11,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Jandi\Config\Entry\StringEntry
  *
  * @uses \Jandi\Config\Entry\AbstractEntry
+ * @uses \Jandi\Config\Exception\InvalidValueException
  */
 final class StringEntryTest extends TestCase
 {

@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Jandi\Config\Entry\BoolEntry
  *
  * @uses \Jandi\Config\Entry\AbstractEntry
+ * @uses \Jandi\Config\Exception\InvalidValueException
  */
 final class BoolEntryTest extends TestCase
 {

@@ -6,7 +6,7 @@ use InvalidArgumentException;
 use Jandi\Config\ConfigBuilder;
 use Jandi\Config\Dotenv\AdapterInterface;
 use Jandi\Config\Entry\AbstractEntry;
-use Jandi\Config\Exception\KeyNotFoundException;
+use Jandi\Config\Exception\MissingValueException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +17,7 @@ use PHPUnit\Framework\TestCase;
  * @uses \Jandi\Config\Entry\AbstractEntry
  * @uses \Jandi\Config\Config
  * @uses \Jandi\Config\Dotenv\AdapterInterface
+ * @uses \Jandi\Config\Exception\MissingValueException
  */
 final class ConfigBuilderTest extends TestCase
 {
@@ -57,7 +58,7 @@ final class ConfigBuilderTest extends TestCase
         $entry->method('getDefaultValue')->willReturn(null);
 
         $builder = new ConfigBuilder([$entry]);
-        $this->expectException(KeyNotFoundException::class);
+        $this->expectException(MissingValueException::class);
         $builder->build();
     }
 

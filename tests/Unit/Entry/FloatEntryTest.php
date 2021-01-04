@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Jandi\Config\Entry\FloatEntry
  *
  * @uses \Jandi\Config\Entry\AbstractEntry
+ * @uses \Jandi\Config\Exception\InvalidValueException
  */
 final class FloatEntryTest extends TestCase
 {
@@ -26,10 +27,10 @@ final class FloatEntryTest extends TestCase
     public function floatValidValueProvider(): array
     {
         return [
-            ["3", 3.0],
-            ["3.4", 3.4],
-            ["-5.6", -5.6],
-            ["0", 0],
+            ['3', 3.0],
+            ['3.4', 3.4],
+            ['-5.6', -5.6],
+            ['0', 0],
         ];
     }
 
@@ -48,8 +49,8 @@ final class FloatEntryTest extends TestCase
     public function floatInvalidValueProvider(): array
     {
         return [
-            ["ABC"],
-            [""],
+            ['ABC'],
+            [''],
         ];
     }
 
@@ -67,10 +68,9 @@ final class FloatEntryTest extends TestCase
     {
         $entry = (new FloatEntry('KEY'))->setLowerLimit($lowerLimit);
 
-        $this->assertSame(11.111, $entry->checkValue("11.111"));
+        $this->assertSame(11.111, $entry->checkValue('11.111'));
     }
 
-    
     public function lowerLimitValidValueProvider(): array
     {
         return [
@@ -85,7 +85,7 @@ final class FloatEntryTest extends TestCase
 
         $this->expectException(InvalidValueException::class);
 
-        $entry->checkValue(5.3);
+        $entry->checkValue('5.3');
     }
 
     public function testUpperLimitMethods(): void
@@ -102,10 +102,9 @@ final class FloatEntryTest extends TestCase
     {
         $entry = (new FloatEntry('KEY'))->setUpperLimit($upperLimit);
 
-        $this->assertSame(7.5, $entry->checkValue("7.5"));
+        $this->assertSame(7.5, $entry->checkValue('7.5'));
     }
 
-    
     public function upperLimitValidValueProvider(): array
     {
         return [
@@ -120,6 +119,6 @@ final class FloatEntryTest extends TestCase
 
         $this->expectException(InvalidValueException::class);
 
-        $entry->checkValue(5.6);
+        $entry->checkValue('5.6');
     }
 }

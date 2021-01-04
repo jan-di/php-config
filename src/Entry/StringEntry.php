@@ -16,16 +16,16 @@ class StringEntry extends AbstractEntry
     public function checkValue(string $value): string
     {
         if ($this->minLength !== null && strlen($value) < $this->minLength) {
-            throw new InvalidValueException('Value is too short');
+            throw new InvalidValueException('Value is too short. Minimum length: '.$this->minLength, $this, $value);
         }
         if ($this->maxLength !== null && strlen($value) > $this->maxLength) {
-            throw new InvalidValueException('Value is too long');
+            throw new InvalidValueException('Value is too long. Maximum length: '.$this->maxLength, $this, $value);
         }
         if (count($this->allowedValues) > 0 && !in_array($value, $this->allowedValues)) {
-            throw new InvalidValueException('Value is not allowed');
+            throw new InvalidValueException('Value is not allowed. Allowed values: '.implode(', ', $this->allowedValues), $this, $value);
         }
         if ($this->regexPattern !== null && preg_match($this->regexPattern, $value) !== 1) {
-            throw new InvalidValueException('Value does not match regex pattern');
+            throw new InvalidValueException('Value does not match regex pattern. Pattern: '.$this->regexPattern, $this, $value);
         }
 
         return $value;

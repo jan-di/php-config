@@ -14,16 +14,16 @@ class FloatEntry extends AbstractEntry
     public function checkValue(string $value): float
     {
         if (!is_numeric($value)) {
-            throw new InvalidValueException('Value is not a valid float');
+            throw new InvalidValueException('Value is not a valid float', $this, $value);
         }
 
         $floatValue = floatval($value);
 
         if ($this->lowerLimit !== null && $floatValue < $this->lowerLimit) {
-            throw new InvalidValueException('Value is too low');
+            throw new InvalidValueException('Value is too low. Lower limit: '.$this->lowerLimit, $this, $value);
         }
         if ($this->upperLimit !== null && $floatValue > $this->upperLimit) {
-            throw new InvalidValueException('Value is too high');
+            throw new InvalidValueException('Value is too high. Upper limit: '.$this->upperLimit, $this, $value);
         }
 
         return $floatValue;

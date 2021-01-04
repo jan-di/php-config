@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Jandi\Config;
 
-use Jandi\Config\Exception\KeyNotFoundException;
+use OutOfBoundsException;
 
 class Config
 {
@@ -30,7 +30,7 @@ class Config
     public function get(string $key)
     {
         if (!isset($this->values[$key])) {
-            throw new KeyNotFoundException('There is no value with key "'.$key.'"');
+            throw new OutOfBoundsException('There is no value with key "'.$key.'"');
         }
 
         return $this->values[$key];

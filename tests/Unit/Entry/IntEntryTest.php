@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
  * @covers \Jandi\Config\Entry\IntEntry
  *
  * @uses \Jandi\Config\Entry\AbstractEntry
+ * @uses \Jandi\Config\Exception\InvalidValueException
  */
 final class IntEntryTest extends TestCase
 {
@@ -26,9 +27,9 @@ final class IntEntryTest extends TestCase
     public function integerValidValueProvider(): array
     {
         return [
-            ["3", 3],
-            ["-5", -5],
-            ["0", 0],
+            ['3', 3],
+            ['-5', -5],
+            ['0', 0],
         ];
     }
 
@@ -47,9 +48,9 @@ final class IntEntryTest extends TestCase
     public function integerInvalidValueProvider(): array
     {
         return [
-            ["5.5"],
-            ["ABC"],
-            [""],
+            ['5.5'],
+            ['ABC'],
+            [''],
         ];
     }
 
@@ -67,10 +68,9 @@ final class IntEntryTest extends TestCase
     {
         $entry = (new IntEntry('KEY'))->setLowerLimit($lowerLimit);
 
-        $this->assertSame(11, $entry->checkValue("11"));
+        $this->assertSame(11, $entry->checkValue('11'));
     }
 
-    
     public function lowerLimitValidValueProvider(): array
     {
         return [
@@ -85,7 +85,7 @@ final class IntEntryTest extends TestCase
 
         $this->expectException(InvalidValueException::class);
 
-        $entry->checkValue(3);
+        $entry->checkValue('3');
     }
 
     public function testUpperLimitMethods(): void
@@ -102,10 +102,9 @@ final class IntEntryTest extends TestCase
     {
         $entry = (new IntEntry('KEY'))->setUpperLimit($upperLimit);
 
-        $this->assertSame(7, $entry->checkValue("7"));
+        $this->assertSame(7, $entry->checkValue('7'));
     }
 
-    
     public function upperLimitValidValueProvider(): array
     {
         return [
@@ -120,6 +119,6 @@ final class IntEntryTest extends TestCase
 
         $this->expectException(InvalidValueException::class);
 
-        $entry->checkValue(9);
+        $entry->checkValue('9');
     }
 }

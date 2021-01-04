@@ -3,7 +3,7 @@
 namespace Jandi\Config\Test\Unit;
 
 use Jandi\Config\Config;
-use Jandi\Config\Exception\KeyNotFoundException;
+use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -22,7 +22,7 @@ final class ConfigTest extends TestCase
     {
         $config = new Config([]);
 
-        $this->expectException(KeyNotFoundException::class);
+        $this->expectException(OutOfBoundsException::class);
 
         $config->get('NOT');
     }

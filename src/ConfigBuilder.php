@@ -7,7 +7,7 @@ namespace Jandi\Config;
 use InvalidArgumentException;
 use Jandi\Config\Dotenv\AdapterInterface;
 use Jandi\Config\Entry\AbstractEntry;
-use Jandi\Config\Exception\KeyNotFoundException;
+use Jandi\Config\Exception\MissingValueException;
 use LogicException;
 
 class ConfigBuilder
@@ -41,7 +41,7 @@ class ConfigBuilder
                 $value = $this->getEnv($entry->getKey());
                 if ($value === null) {
                     if ($entry->getDefaultValue() === null) {
-                        throw new KeyNotFoundException('Mandatory Variable '.$entry->getKey().' is missing!');
+                        throw new MissingValueException('Mandatory Variable '.$entry->getKey().' is missing!', $entry);
                     }
                     $value = $entry->getDefaultValue();
                 }
