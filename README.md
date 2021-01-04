@@ -83,6 +83,8 @@ Alternatively you can provide you own by implementing [AdapterInterface](https:/
 ### Entry Types
 
 - StringEntry (MinLength, MaxLength, AllowedValues, RegexPattern)
+- IntEntry (LowerLimit, UpperLimit)
+- FloatEntry (LowerLimit, UpperLimit)
 - BoolEntry
 
 Every type allowed to set a default value. Every entry that does not have a default value is mandatory and must specified by the enduser.

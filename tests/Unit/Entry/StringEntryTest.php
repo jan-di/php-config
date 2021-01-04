@@ -69,24 +69,6 @@ final class StringEntryTest extends TestCase
         $this->assertSame(50, $entry->getMaxLength());
     }
 
-    public function testMinLengthGreaterThanMaxLength(): void
-    {
-        $entry = new StringEntry('test');
-
-        $this->expectException(InvalidArgumentException::class);
-
-        $entry->setMaxLength(10)->setMinLength(11);
-    }
-
-    public function testMaxLengthLowerThanMinLength(): void
-    {
-        $entry = new StringEntry('test');
-
-        $this->expectException(InvalidArgumentException::class);
-
-        $entry->setMinLength(8)->setMaxLength(7);
-    }
-
     public function testAllowedValuesMethods(): void
     {
         $entry = new StringEntry('test1');

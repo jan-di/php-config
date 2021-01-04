@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Jandi\Config\Entry;
 
-use InvalidArgumentException;
 use Jandi\Config\Exception\InvalidValueException;
 
 class StringEntry extends AbstractEntry
@@ -17,16 +16,16 @@ class StringEntry extends AbstractEntry
     public function checkValue(string $value): string
     {
         if ($this->minLength !== null && strlen($value) < $this->minLength) {
-            throw new InvalidValueException('Specified Value is too short');
+            throw new InvalidValueException('Value is too short');
         }
         if ($this->maxLength !== null && strlen($value) > $this->maxLength) {
-            throw new InvalidValueException('Specified Value is too long');
+            throw new InvalidValueException('Value is too long');
         }
         if (count($this->allowedValues) > 0 && !in_array($value, $this->allowedValues)) {
-            throw new InvalidValueException('Specified Value is not allowed');
+            throw new InvalidValueException('Value is not allowed');
         }
         if ($this->regexPattern !== null && preg_match($this->regexPattern, $value) !== 1) {
-            throw new InvalidValueException('Specified Value does not match regex pattern');
+            throw new InvalidValueException('Value does not match regex pattern');
         }
 
         return $value;
@@ -39,10 +38,6 @@ class StringEntry extends AbstractEntry
 
     public function setMinLength(?int $length): self
     {
-        if ($this->maxLength !== null && $length !== null && $length > $this->maxLength) {
-            throw new InvalidArgumentException('MinLength cannot be greater than MaxLength');
-        }
-
         $this->minLength = $length;
 
         return $this;
@@ -55,10 +50,6 @@ class StringEntry extends AbstractEntry
 
     public function setMaxLength(?int $length): self
     {
-        if ($this->minLength !== null && $length !== null && $length < $this->minLength) {
-            throw new InvalidArgumentException('MaxLength cannot be lower than MinLength');
-        }
-
         $this->maxLength = $length;
 
         return $this;

@@ -23,7 +23,7 @@ class BoolEntry extends AbstractEntry
     {
         $key = strtolower($value);
         if (!isset(self::$valueTable[$key])) {
-            throw new InvalidValueException('Specified Value cannot be converted to boolean');
+            throw new InvalidValueException('Value cannot be converted to a boolean');
         }
 
         return self::$valueTable[$key];
