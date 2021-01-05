@@ -17,7 +17,7 @@ Install via composer:
 
 ## Usage
 
-### Basic Usage:
+### Basic Usage
 
 When creating the Config Builder, specify all definitions for the config values. You can use certain type specific constraints to validate the values later. By default, values are read from the environment variables. Optionally you can enable a Dotenv Adapter to add variables from a .env file to the environment before building the config.
 
@@ -72,6 +72,29 @@ if (!$config->isCached() && $config->getValue('APP_ENV') === 'production') {
 }
 ```
 
+### Validating values and default values
+
+Each Entrytype has its own set of validating rules that can be set using a fluent API. A specified value must comply to all rules, otherwise the config is not built. 
+Note that the default value is also validated against the ruleset to ensure that its also a valid value. Every entry that does not have a default value, must be specified. Otherwise the container won't get built successfully.
+
+```php
+(new StringEntry('STRING', 'value1'))
+    ->setMinLength(5)
+    ->setMaxLength(10)
+    ->setAllowedValues(['value1','value2'])
+    ->setRegexPattern('/value.*/')
+
+(new BoolEntry('BOOL', 'true'));
+
+(new IntEntry('INT', '3'))
+    ->setLowerLimit(0)
+    ->setUpperLimit(8);
+
+(new FloatEntry('FLOAT', '5.5'))
+    ->setLowerLimit(3.4)
+    ->setUpperLimit(7.8);
+```
+
 ### Export to Array
 
 You can export the values/default values to a simple array to process it further.
@@ -85,9 +108,7 @@ $defaultValues = $config->exportDefaultValues();
 // returns something like: ['APP_ENV' => 'development']
 ```
 
-## Appendix
-
-### DotEnv Adapters
+### Supported DotEnv adapters
 
 Currently, the following Dotenv Libraries are supported out of the box:
 
@@ -96,12 +117,3 @@ Currently, the following Dotenv Libraries are supported out of the box:
 - [josegonzalez/dotenv](https://github.com/josegonzalez/php-dotenv)
 
 Alternatively you can provide you own by implementing [AdapterInterface](https://github.com/jan-di/php-config/blob/main/src/Dotenv/AdapterInterface.php)
-
-### Entry Types
-
-- StringEntry (MinLength, MaxLength, AllowedValues, RegexPattern)
-- IntEntry (LowerLimit, UpperLimit)
-- FloatEntry (LowerLimit, UpperLimit)
-- BoolEntry
-
-Every type allowed to set a default value. Every entry that does not have a default value is mandatory and must specified by the enduser.
