@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jandi\Config\Dotenv;
 
 use Dotenv\Dotenv;
+use Dotenv\Exception\InvalidPathException;
 
 class VlucasDotenvAdapter implements AdapterInterface
 {
@@ -17,6 +18,9 @@ class VlucasDotenvAdapter implements AdapterInterface
 
     public function load(): void
     {
-        $this->dotenv->load();
+        try {
+            $this->dotenv->load();
+        } catch (InvalidPathException $e) {
+        }
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jandi\Config\Dotenv;
 
+use InvalidArgumentException;
 use josegonzalez\Dotenv\Loader;
 
 class JosegonzalesDotenvAdapter implements AdapterInterface
@@ -17,6 +18,9 @@ class JosegonzalesDotenvAdapter implements AdapterInterface
 
     public function load(): void
     {
-        $this->dotenv->parse()->toServer();
+        try {
+            $this->dotenv->parse()->skipExisting()->toServer();
+        } catch (InvalidArgumentException $e) {
+        }
     }
 }

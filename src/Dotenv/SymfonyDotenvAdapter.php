@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jandi\Config\Dotenv;
 
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\Dotenv\Exception\PathException;
 
 class SymfonyDotenvAdapter implements AdapterInterface
 {
@@ -19,6 +20,9 @@ class SymfonyDotenvAdapter implements AdapterInterface
 
     public function load(): void
     {
-        $this->dotenv->load($this->file);
+        try {
+            $this->dotenv->load($this->file);
+        } catch (PathException $e) {
+        }
     }
 }

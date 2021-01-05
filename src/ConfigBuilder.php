@@ -103,6 +103,6 @@ class ConfigBuilder
 
     private function getEnv(string $key): ?string
     {
-        return $_SERVER[$key] ?? null;
+        return isset($_SERVER[$key]) ? strval($_SERVER[$key]) : null;
     }
 }
