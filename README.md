@@ -72,6 +72,19 @@ if (!$config->isCached() && $config->getValue('APP_ENV') === 'production') {
 }
 ```
 
+### Export to Array
+
+You can export the values/default values to a simple array to process it further.
+
+```php
+$config = $configBuilder->build();
+
+$values = $config->exportValues();
+$defaultValues = $config->exportDefaultValues();
+
+// returns something like: ['APP_ENV' => 'development']
+```
+
 ## Appendix
 
 ### DotEnv Adapters

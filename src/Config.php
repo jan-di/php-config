@@ -68,6 +68,28 @@ class Config
         return isset($this->values[$key]);
     }
 
+    public function exportValues(): array
+    {
+        $result = [];
+
+        foreach ($this->values as $value) {
+            $result[$value->getKey()] = $value->getValue();
+        }
+
+        return $result;
+    }
+
+    public function exportDefaultValues(): array
+    {
+        $result = [];
+
+        foreach ($this->values as $value) {
+            $result[$value->getKey()] = $value->getDefaultValue();
+        }
+
+        return $result;
+    }
+
     /**
      * @param mixed $value
      */
