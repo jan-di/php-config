@@ -13,19 +13,24 @@ class StringEntry extends AbstractEntry
     private array $allowedValues = [];
     private ?string $regexPattern = null;
 
-    public function checkValue(string $value): string
+    public function __construct(string $key, ?string $defaultValue = null)
+    {
+        parent::__construct($key, $defaultValue, 'string');
+    }
+
+    public function checkValue(string $value, bool $default = false): string
     {
         if ($this->minLength !== null && strlen($value) < $this->minLength) {
-            throw new InvalidValueException('Value is too short. Minimum length: '.$this->minLength, $this, $value);
+            throw new InvalidValueException('too short. Minimum length: '.$this->minLength, $this, $value, $default);
         }
         if ($this->maxLength !== null && strlen($value) > $this->maxLength) {
-            throw new InvalidValueException('Value is too long. Maximum length: '.$this->maxLength, $this, $value);
+            throw new InvalidValueException('too long. Maximum length: '.$this->maxLength, $this, $value, $default);
         }
         if (count($this->allowedValues) > 0 && !in_array($value, $this->allowedValues)) {
-            throw new InvalidValueException('Value is not allowed. Allowed values: '.implode(', ', $this->allowedValues), $this, $value);
+            throw new InvalidValueException('not allowed. Allowed values: '.implode(', ', $this->allowedValues), $this, $value, $default);
         }
         if ($this->regexPattern !== null && preg_match($this->regexPattern, $value) !== 1) {
-            throw new InvalidValueException('Value does not match regex pattern. Pattern: '.$this->regexPattern, $this, $value);
+            throw new InvalidValueException('doesn\'t match regex pattern. Pattern: '.$this->regexPattern, $this, $value, $default);
         }
 
         return $value;

@@ -33,4 +33,11 @@ final class AbstractEntryTest extends TestCase
 
         $this->assertSame('xyz', $entry->getDefaultValue());
     }
+
+    public function testFriendlyTypeMethods(): void
+    {
+        $entry = new StringEntry('TEST_KEY');
+
+        $this->assertNotEmpty($entry->getFriendlyType());
+    }
 }

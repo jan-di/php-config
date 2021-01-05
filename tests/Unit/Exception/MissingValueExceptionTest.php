@@ -14,7 +14,7 @@ final class MissingValueExceptionTest extends TestCase
     public function testGetter(): void
     {
         $entry = $this->createMock(AbstractEntry::class);
-        $exception = new MissingValueException('message', $entry);
+        $exception = new MissingValueException($entry);
 
         $this->assertSame($entry, $exception->getEntry());
     }

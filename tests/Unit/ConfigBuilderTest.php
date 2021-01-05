@@ -6,7 +6,8 @@ use InvalidArgumentException;
 use Jandi\Config\ConfigBuilder;
 use Jandi\Config\Dotenv\AdapterInterface;
 use Jandi\Config\Entry\AbstractEntry;
-use Jandi\Config\Exception\MissingValueException;
+use Jandi\Config\Exception\BuildException;
+use Jandi\Config\Exception\InvalidValueException;
 use LogicException;
 use org\bovigo\vfs\vfsStream;
 use PHPUnit\Framework\TestCase;
@@ -19,6 +20,8 @@ use PHPUnit\Framework\TestCase;
  * @uses \Jandi\Config\Value
  * @uses \Jandi\Config\Dotenv\AdapterInterface
  * @uses \Jandi\Config\Exception\MissingValueException
+ * @uses \Jandi\Config\Exception\InvalidValueException
+ * @uses \Jandi\Config\Exception\BuildException
  */
 final class ConfigBuilderTest extends TestCase
 {
@@ -59,7 +62,41 @@ final class ConfigBuilderTest extends TestCase
         $entry->method('getDefaultValue')->willReturn(null);
 
         $builder = new ConfigBuilder([$entry]);
-        $this->expectException(MissingValueException::class);
+        $this->expectException(BuildException::class);
+        $builder->build();
+    }
+
+    /**
+     * @backupGlobals enabled
+     */
+    public function testWithInvalidValue(): void
+    {
+        $_SERVER['APP_VAR4'] = 'valuex';
+
+        $entry = $this->createMock(AbstractEntry::class);
+        $entry->method('getKey')->willReturn('APP_VAR4');
+        $entry->method('getDefaultValue')->willReturn('value2');
+        $entry->method('checkValue')->will($this->returnCallback(function (string $value) use ($entry) {
+            if ($value === 'value2') {
+                return 'value2';
+            }
+            throw new InvalidValueException('invalid', $entry, $value, false);
+        }));
+
+        $builder = new ConfigBuilder([$entry]);
+        $this->expectException(BuildException::class);
+        $builder->build();
+    }
+
+    public function testWithInvalidDefaultValue(): void
+    {
+        $entry = $this->createMock(AbstractEntry::class);
+        $entry->method('getKey')->willReturn('APP_VAR5');
+        $entry->method('getDefaultValue')->willReturn('invalid');
+        $entry->method('checkValue')->with('invalid')->willThrowException(new InvalidValueException('reason', $entry, 'invalid', true));
+
+        $builder = new ConfigBuilder([$entry]);
+        $this->expectException(BuildException::class);
         $builder->build();
     }
 

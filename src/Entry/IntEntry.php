@@ -11,19 +11,24 @@ class IntEntry extends AbstractEntry
     private ?int $lowerLimit = null;
     private ?int $upperLimit = null;
 
-    public function checkValue(string $value): int
+    public function __construct(string $key, ?string $defaultValue = null)
+    {
+        parent::__construct($key, $defaultValue, 'int');
+    }
+
+    public function checkValue(string $value, bool $default = false): int
     {
         if (!is_numeric($value) || floatval(intval($value)) !== floatval($value)) {
-            throw new InvalidValueException('Value is not a valid integer', $this, $value);
+            throw new InvalidValueException('not a valid integer', $this, $value, $default);
         }
 
         $intValue = intval($value);
 
         if ($this->lowerLimit !== null && $intValue < $this->lowerLimit) {
-            throw new InvalidValueException('Value is too low. Lower limit: '.$this->lowerLimit, $this, $value);
+            throw new InvalidValueException('too low. Lower limit: '.$this->lowerLimit, $this, $value, $default);
         }
         if ($this->upperLimit !== null && $intValue > $this->upperLimit) {
-            throw new InvalidValueException('Value is too high. Upper limit: '.$this->upperLimit, $this, $value);
+            throw new InvalidValueException('too high. Upper limit: '.$this->upperLimit, $this, $value, $default);
         }
 
         return $intValue;

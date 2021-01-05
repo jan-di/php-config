@@ -29,7 +29,7 @@ use Jandi\Config\Entry\StringEntry;
 
 // define all config entries via a fluent API:
 $configBuilder = new ConfigBuilder([
-    (new StringEntry('APP_ENV'))->setDefaultValue('development'),
+    (new StringEntry('APP_ENV', 'development')),
     (new StringEntry('APP_TOKEN'))->setMinLength(20)
 ]);
 
@@ -93,6 +93,24 @@ Note that the default value is also validated against the ruleset to ensure that
 (new FloatEntry('FLOAT', '5.5'))
     ->setLowerLimit(3.4)
     ->setUpperLimit(7.8);
+```
+
+### Catch Errors
+
+The container builder is designed to stop if atleast one variable is missing or has an invalid value. This assures that a successfully built config always have all needed values. The BuildException has a few methods to show summaries of all missing/invalid values in different formats.
+
+```php
+try {
+    $builder->build();
+} catch(BuildExceptionTest $e) {
+    echo $e->getTextSummary();
+    exit;
+}
+
+// There where 2 error/s while building configuration:
+// 
+// APP_ENV [string] Value is invalid: not allowed. Allowed values: abce.
+// APP_TOKEN [string] Variable is missing and has no default value.
 ```
 
 ### Export to Array

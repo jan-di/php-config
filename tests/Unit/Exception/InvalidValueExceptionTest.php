@@ -14,9 +14,11 @@ final class InvalidValueExceptionTest extends TestCase
     public function testGetter(): void
     {
         $entry = $this->createMock(AbstractEntry::class);
-        $exception = new InvalidValueException('message', $entry, 'value');
+        $exception = new InvalidValueException('reason', $entry, 'value', true);
 
         $this->assertSame($entry, $exception->getEntry());
         $this->assertSame('value', $exception->getValue());
+        $this->assertSame(true, $exception->isDefault());
+        $this->assertTrue(strpos($exception->getMessage(), 'reason') !== false);
     }
 }

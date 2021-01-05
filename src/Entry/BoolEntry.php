@@ -19,11 +19,16 @@ class BoolEntry extends AbstractEntry
         'no' => false,
     ];
 
-    public function checkValue(string $value): bool
+    public function __construct(string $key, ?string $defaultValue = null)
+    {
+        parent::__construct($key, $defaultValue, 'bool');
+    }
+
+    public function checkValue(string $value, bool $default = false): bool
     {
         $key = strtolower($value);
         if (!isset(self::$valueTable[$key])) {
-            throw new InvalidValueException('Value cannot be converted to a boolean', $this, $value);
+            throw new InvalidValueException('cannot convert to a boolean', $this, $value, $default);
         }
 
         return self::$valueTable[$key];

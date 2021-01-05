@@ -7,6 +7,8 @@ namespace Jandi\Config;
 use InvalidArgumentException;
 use Jandi\Config\Dotenv\AdapterInterface;
 use Jandi\Config\Entry\AbstractEntry;
+use Jandi\Config\Exception\BuildException;
+use Jandi\Config\Exception\InvalidValueException;
 use Jandi\Config\Exception\MissingValueException;
 use LogicException;
 
@@ -30,6 +32,7 @@ class ConfigBuilder
             $config = require $this->cacheFile;
         } else {
             $values = [];
+            $exceptions = [];
 
             // load .env files
             if ($this->dotenvAdapter !== null) {
@@ -39,22 +42,36 @@ class ConfigBuilder
             // load and validate each entry
             foreach ($this->entries as $entry) {
                 $stringDefaultValue = $entry->getDefaultValue();
-                $defaultValue = $stringDefaultValue !== null ? $entry->checkValue($stringDefaultValue) : null;
-
+                try {
+                    $defaultValue = $stringDefaultValue !== null ? $entry->checkValue($stringDefaultValue, true) : null;
+                } catch (InvalidValueException $e) {
+                    $exceptions[] = $e;
+                    $defaultValue = null;
+                }
                 $stringValue = $this->getEnv($entry->getKey());
                 if ($stringValue !== null) {
-                    $value = $entry->checkValue($stringValue);
+                    try {
+                        $value = $entry->checkValue($stringValue);
+                    } catch (InvalidValueException $e) {
+                        $exceptions[] = $e;
+                        $value = null;
+                    }
                     $userDefined = true;
                 } else {
                     $value = $defaultValue;
                     $userDefined = false;
                     if ($value === null) {
-                        throw new MissingValueException('Mandatory Variable '.$entry->getKey().' is missing!', $entry);
+                        $exceptions[] = new MissingValueException($entry);
                     }
                 }
 
                 $values[] = new Value($entry->getKey(), $value, $defaultValue, $userDefined);
             }
+
+            if (count($exceptions) > 0) {
+                throw new BuildException($exceptions);
+            }
+
             $config = new Config($values);
         }
 

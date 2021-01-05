@@ -11,19 +11,24 @@ class FloatEntry extends AbstractEntry
     private ?float $lowerLimit = null;
     private ?float $upperLimit = null;
 
-    public function checkValue(string $value): float
+    public function __construct(string $key, ?string $defaultValue = null)
+    {
+        parent::__construct($key, $defaultValue, 'float');
+    }
+
+    public function checkValue(string $value, bool $default = false): float
     {
         if (!is_numeric($value)) {
-            throw new InvalidValueException('Value is not a valid float', $this, $value);
+            throw new InvalidValueException('not a valid float', $this, $value, $default);
         }
 
         $floatValue = floatval($value);
 
         if ($this->lowerLimit !== null && $floatValue < $this->lowerLimit) {
-            throw new InvalidValueException('Value is too low. Lower limit: '.$this->lowerLimit, $this, $value);
+            throw new InvalidValueException('too low. Lower limit: '.$this->lowerLimit, $this, $value, $default);
         }
         if ($this->upperLimit !== null && $floatValue > $this->upperLimit) {
-            throw new InvalidValueException('Value is too high. Upper limit: '.$this->upperLimit, $this, $value);
+            throw new InvalidValueException('too high. Upper limit: '.$this->upperLimit, $this, $value, $default);
         }
 
         return $floatValue;

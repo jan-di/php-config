@@ -11,13 +11,16 @@ class InvalidValueException extends RuntimeException
 {
     private AbstractEntry $entry;
     private string $value;
+    private bool $default;
 
-    public function __construct(string $message, AbstractEntry $entry, string $value)
+    public function __construct(string $reason, AbstractEntry $entry, string $value, bool $default)
     {
-        parent::__construct($message);
+        $prefix = $default ? 'Default value' : 'Value';
+        parent::__construct($prefix.' is invalid: '.$reason.'.');
 
         $this->entry = $entry;
         $this->value = $value;
+        $this->default = $default;
     }
 
     public function getValue(): string
@@ -28,5 +31,10 @@ class InvalidValueException extends RuntimeException
     public function getEntry(): AbstractEntry
     {
         return $this->entry;
+    }
+
+    public function isDefault(): bool
+    {
+        return $this->default;
     }
 }
