@@ -1,9 +1,13 @@
 <h1 align="center">jan-di/config</h1>
 <p align="center">
     <a alt="Packagist" href="https://packagist.org/packages/jan-di/config"><img src="https://img.shields.io/packagist/v/jan-di/config"></a>
+    <a alt="Packagist" href="https://packagist.org/packages/jan-di/config"><img src="https://img.shields.io/packagist/stars/jan-di/config"></a>
     <a alt="Packagist" href="https://packagist.org/packages/jan-di/config"><img src="https://img.shields.io/packagist/php-v/jan-di/config"/></a>
     <a alt="LICENSE" href="https://github.com/jan-di/php-config/blob/main/LICENSE"><img src="https://img.shields.io/packagist/l/jan-di/config"/></a>
 </p>
+<p align="center">
+Library to load, validate and cache configuration from environment variables and .env files
+<p>
 
 ## Install
 
