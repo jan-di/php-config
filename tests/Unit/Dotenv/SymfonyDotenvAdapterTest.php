@@ -2,7 +2,6 @@
 
 namespace Jandi\Config\Test\Unit\Dotenv;
 
-use Dotenv\Exception\InvalidPathException;
 use Jandi\Config\Dotenv\SymfonyDotenvAdapter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;

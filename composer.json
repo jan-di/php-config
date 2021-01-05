@@ -1,37 +1,46 @@
 {
     "name": "jan-di/config",
-    "description": "",
     "type": "library",
+    "description": "Library to load, validate and cache configuration from environment variables and .env files",
     "license": "MIT",
     "authors": [
         {
             "name": "Jan Dittrich",
-            "email": "mail@jand.one"
+            "email": "mail@jand.one",
+            "role": "Developer"
         }
     ],
     "require": {
         "php": ">=7.4"
+    },
+    "require-dev": {
+        "dg/bypass-finals": "^1.3",
+        "friendsofphp/php-cs-fixer": "^2.17",
+        "josegonzalez/dotenv": "^3.2",
+        "mikey179/vfsstream": "^1.6",
+        "phpunit/phpunit": "^9.5",
+        "psalm/plugin-phpunit": "^0.15.0",
+        "symfony/dotenv": "^5.2",
+        "vimeo/psalm": "^4.3",
+        "vlucas/phpdotenv": "^5.2"
+    },
+    "suggest": {
+        "josegonzalez/dotenv": "Optional for loading .env files",
+        "symfony/dotenv": "Optional for loading .env files",
+        "vlucas/phpdotenv": "Optional for loading .env files"
     },
     "autoload": {
         "psr-4": {
             "Jandi\\Config\\": "src"
         }
     },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "vlucas/phpdotenv": "^5.2",
-        "mikey179/vfsstream": "^1.6",
-        "symfony/dotenv": "^5.2",
-        "dg/bypass-finals": "^1.3",
-        "josegonzalez/dotenv": "^3.2",
-        "vimeo/psalm": "^4.3",
-        "psalm/plugin-phpunit": "^0.15.0",
-        "friendsofphp/php-cs-fixer": "^2.17"
-    },
     "scripts": {
+        "fix": [
+            "@php-cs-fixer fix"
+        ],
+        "php-cs-fixer": "php-cs-fixer",
         "phpunit": "phpunit",
         "psalm": "psalm",
-        "php-cs-fixer": "php-cs-fixer",
         "test": [
             "@phpunit",
             "@psalm",
@@ -39,9 +48,9 @@
         ],
         "test-coverage": [
             "@phpunit --coverage-html .phpunit.cache/report"
-        ],
-        "fix": [
-            "@php-cs-fixer fix"
         ]
+    },
+    "support": {
+        "issues": "https://github.com/jan-di/php-config/issues"
     }
 }
