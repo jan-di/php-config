@@ -2,62 +2,108 @@
 
 namespace Jandi\Config\Test\Unit;
 
+use InvalidArgumentException;
 use Jandi\Config\Config;
+use Jandi\Config\Value;
 use OutOfBoundsException;
 use PHPUnit\Framework\TestCase;
 
 /**
  * @covers \Jandi\Config\Config
+ *
+ * @uses \Jandi\Config\Value
  */
 final class ConfigTest extends TestCase
 {
-    public function testGetValue(): void
+    public function testGetExistingValue(): void
     {
-        $config = new Config(['KEY' => 'value']);
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
+        $value->method('getValue')->willReturn('foo');
+        $config = new Config([$value]);
 
-        $this->assertSame('value', $config->get('KEY'));
+        $this->assertSame('foo', $config->getValue('KEY'));
     }
 
-    public function testKeyNotFound(): void
+    public function testGetMissingValue(): void
     {
         $config = new Config([]);
 
         $this->expectException(OutOfBoundsException::class);
 
-        $config->get('NOT');
+        $config->getValue('NOT_FOUND');
+    }
+
+    public function testGetExistingDefaultValue(): void
+    {
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
+        $value->method('getDefaultValue')->willReturn('bar');
+        $config = new Config([$value]);
+
+        $this->assertSame('bar', $config->getDefaultValue('KEY'));
+    }
+
+    public function testGetMissingDefaultValue(): void
+    {
+        $config = new Config([]);
+
+        $this->expectException(OutOfBoundsException::class);
+
+        $config->getDefaultValue('NOT_FOUND');
+    }
+
+    public function testExistingIsUserDefined(): void
+    {
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
+        $value->method('isUserDefined')->willReturn(true);
+        $config = new Config([$value]);
+
+        $this->assertTrue($config->isUserDefined('KEY'));
+    }
+
+    public function testMissingIsUserDefined(): void
+    {
+        $config = new Config([]);
+
+        $this->expectException(OutOfBoundsException::class);
+
+        $config->isUserDefined('NOT_FOUND');
     }
 
     public function testHasValue(): void
     {
-        $config = new Config(['KEY' => 'value']);
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
+        $value->method('getValue')->willReturn('foo');
+        $config = new Config([$value]);
 
         $this->assertTrue($config->has('KEY'));
-        $this->assertFalse($config->has('NOT'));
+        $this->assertFalse($config->has('NOT_FOUND'));
     }
 
-    public function testExportIsUnchanged(): void
+    public function testSetDuplicateKey(): void
     {
-        $config = new Config([
-            'KEY1' => 'val1',
-            'KEY3' => 'val3',
-            'KEY2' => 'val2',
-        ]);
+        $value1 = $this->createMock(Value::class);
+        $value1->method('getKey')->willReturn('KEY');
+        $value2 = clone $value1;
 
-        $this->assertEqualsCanonicalizing([
-            'KEY1' => 'val1',
-            'KEY2' => 'val2',
-            'KEY3' => 'val3',
-        ], $config->export());
+        $this->expectException(InvalidArgumentException::class);
+
+        new Config([$value1, $value2]);
     }
 
-    public function testExportIsImportable(): void
+    public function testSetState(): void
     {
-        $config1 = new Config([
-            'KEY1' => 'val1',
-            'KEY2' => 2,
-        ]);
-        $config2 = new Config($config1->export());
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
 
-        $this->assertEqualsCanonicalizing($config1->export(), $config2->export());
+        $config = Config::__set_state([
+            'values' => ['KEY' => $value],
+        ]);
+
+        $this->assertTrue($config->has('KEY'));
+        $this->assertTrue($config->isCached());
     }
 }

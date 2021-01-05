@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @uses \Jandi\Config\Entry\AbstractEntry
  * @uses \Jandi\Config\Config
+ * @uses \Jandi\Config\Value
  * @uses \Jandi\Config\Dotenv\AdapterInterface
  * @uses \Jandi\Config\Exception\MissingValueException
  */
@@ -35,7 +36,7 @@ final class ConfigBuilderTest extends TestCase
         $builder = new ConfigBuilder([$entry]);
         $config = $builder->build();
 
-        $this->assertSame('valuex', $config->get('APP_VAR1'));
+        $this->assertSame('valuex', $config->getValue('APP_VAR1'));
     }
 
     public function testWithDefaultValue(): void
@@ -48,7 +49,7 @@ final class ConfigBuilderTest extends TestCase
         $builder = new ConfigBuilder([$entry]);
         $config = $builder->build();
 
-        $this->assertSame('valuey', $config->get('APP_VAR2'));
+        $this->assertSame('valuey', $config->getValue('APP_VAR2'));
     }
 
     public function testWithMissingValue(): void
@@ -102,14 +103,29 @@ final class ConfigBuilderTest extends TestCase
     {
         $vfs = vfsStream::setup();
 
-        $content = '<?php return '.var_export(['VAR80' => 'value80'], true).';'.PHP_EOL;
+        $content = <<<'EOT'
+            <?php return Jandi\Config\Config::__set_state(array(
+                'values' => 
+               array (
+                 'APP_ENV' => 
+                 Jandi\Config\Value::__set_state(array(
+                    'key' => 'APP_ENV',
+                    'value' => 'development',
+                    'defaultValue' => 'development',
+                    'userDefined' => false,
+                 )),
+               ),
+                'cached' => false,
+             ));
+            EOT;
+
         file_put_contents($vfs->url().'/cache', $content);
 
         $builder = new ConfigBuilder([]);
         $builder->enableCaching($vfs->url().'/cache');
         $config = $builder->build();
 
-        $this->assertSame('value80', $config->get('VAR80'));
+        $this->assertSame('development', $config->getValue('APP_ENV'));
     }
 
     public function testNoCacheDumpWithoutCachePath(): void
@@ -138,8 +154,7 @@ final class ConfigBuilderTest extends TestCase
         $config = $builder->build();
         $builder->dumpCache($config);
 
-        $cachedConfig = require $vfs->url().'/cache';
-        $this->assertEqualsCanonicalizing(['APP_VAR20' => 'variable'], $cachedConfig);
+        $this->assertFileExists($vfs->url().'/cache');
     }
 
     public function testCacheParentDirIsCreated(): void

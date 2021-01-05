@@ -27,7 +27,7 @@ class ConfigBuilder
     public function build(): Config
     {
         if ($this->cacheFile !== null && file_exists($this->cacheFile)) {
-            $values = require $this->cacheFile;
+            $config = require $this->cacheFile;
         } else {
             $values = [];
 
@@ -38,19 +38,27 @@ class ConfigBuilder
 
             // load and validate each entry
             foreach ($this->entries as $entry) {
-                $value = $this->getEnv($entry->getKey());
-                if ($value === null) {
-                    if ($entry->getDefaultValue() === null) {
+                $stringDefaultValue = $entry->getDefaultValue();
+                $defaultValue = $stringDefaultValue !== null ? $entry->checkValue($stringDefaultValue) : null;
+
+                $stringValue = $this->getEnv($entry->getKey());
+                if ($stringValue !== null) {
+                    $value = $entry->checkValue($stringValue);
+                    $userDefined = true;
+                } else {
+                    $value = $defaultValue;
+                    $userDefined = false;
+                    if ($value === null) {
                         throw new MissingValueException('Mandatory Variable '.$entry->getKey().' is missing!', $entry);
                     }
-                    $value = $entry->getDefaultValue();
                 }
 
-                $values[$entry->getKey()] = $entry->checkValue($value);
+                $values[] = new Value($entry->getKey(), $value, $defaultValue, $userDefined);
             }
+            $config = new Config($values);
         }
 
-        return new Config($values);
+        return $config;
     }
 
     public function dumpCache(Config $config): void
@@ -63,7 +71,7 @@ class ConfigBuilder
         if (!is_dir($cacheDir)) {
             mkdir($cacheDir, 0777, true);
         }
-        $content = '<?php return '.var_export($config->export(), true).';'.PHP_EOL;
+        $content = '<?php return '.var_export($config, true).';'.PHP_EOL;
         file_put_contents($this->cacheFile, $content);
     }
 
@@ -71,7 +79,7 @@ class ConfigBuilder
     {
         foreach ($entries as $entry) {
             if (isset($this->entries[$entry->getKey()])) {
-                throw new InvalidArgumentException('There is already an Entry defined for key "'.$entry->getKey().'"');
+                throw new InvalidArgumentException('Duplicate entry for key "'.$entry->getKey().'"');
             }
             $this->entries[$entry->getKey()] = $entry;
         }
