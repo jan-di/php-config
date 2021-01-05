@@ -59,7 +59,7 @@ $configBuilder = new ConfigBuilder([
 ]);
 $configBuilder
     ->enableCaching('/path/to/cache/file') // Activate caching
-    ->enableDotEnv(new VlucasDotenvAdapter(Dotenv::createImmutable(__DIR__, '')));
+    ->enableDotEnv(new VlucasDotenvAdapter(Dotenv::createImmutable(__DIR__, '.env')));
 
 // Since caching is enabled, the builder will check if the cache file exists.
 // if the cache file exists, no values are read from .env or the real environment.
@@ -67,7 +67,7 @@ $config = $configBuilder->build();
 
 // The cache file is not created automatically. Instead you have to provide a condition,
 // when the cache has to be written. Often this is related to the values inside the config.
-if ($config->get('APP_ENV') === 'production') {
+if (!$config->isCached() && $config->getValue('APP_ENV') === 'production') {
     $configBuilder->dumpCache($config);
 }
 ```
