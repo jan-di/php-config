@@ -68,23 +68,23 @@ class Config
         return isset($this->values[$key]);
     }
 
-    public function exportValues(): array
+    public function exportValues(string $prefix = ''): array
     {
         $result = [];
 
         foreach ($this->values as $value) {
-            $result[$value->getKey()] = $value->getValue();
+            $result[$prefix.$value->getKey()] = $value->getValue();
         }
 
         return $result;
     }
 
-    public function exportDefaultValues(): array
+    public function exportDefaultValues(string $prefix = ''): array
     {
         $result = [];
 
         foreach ($this->values as $value) {
-            $result[$value->getKey()] = $value->getDefaultValue();
+            $result[$prefix.$value->getKey()] = $value->getDefaultValue();
         }
 
         return $result;

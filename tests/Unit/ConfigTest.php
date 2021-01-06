@@ -118,6 +118,17 @@ final class ConfigTest extends TestCase
         $this->assertEqualsCanonicalizing(['KEY' => 5.7], $config->exportValues());
     }
 
+    public function testExportValuesWithPrefix(): void
+    {
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
+        $value->method('getValue')->willReturn(5.7);
+
+        $config = new Config([$value]);
+
+        $this->assertEqualsCanonicalizing(['config:KEY' => 5.7], $config->exportValues('config:'));
+    }
+
     public function testExportDefaultValues(): void
     {
         $value = $this->createMock(Value::class);
@@ -127,5 +138,16 @@ final class ConfigTest extends TestCase
         $config = new Config([$value]);
 
         $this->assertEqualsCanonicalizing(['KEY' => 5.9], $config->exportDefaultValues());
+    }
+
+    public function testExportDefaultValuesWithPrefix(): void
+    {
+        $value = $this->createMock(Value::class);
+        $value->method('getKey')->willReturn('KEY');
+        $value->method('getDefaultValue')->willReturn(5.9);
+
+        $config = new Config([$value]);
+
+        $this->assertEqualsCanonicalizing(['config:KEY' => 5.9], $config->exportDefaultValues('config:'));
     }
 }
